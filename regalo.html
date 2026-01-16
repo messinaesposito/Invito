@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Invito di Matrimonio</title>
+
+<!-- Font eleganti -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+@page {
+ size: A4;
+ margin: 0;
+}
+
+body {
+ margin: 0;
+ background: #eee;
+}
+
+a {
+  color: #000000; 
+    transition: 0.3s;
+  }
+
+
+.a4 {
+ width: 210mm;
+ height: 297mm;
+ position: relative;
+ margin: auto;
+ background: url("sfondo.png") no-repeat center center;
+ background-size: cover;
+ font-family: 'Playfair Display', serif;
+ color: #2b2b2b;
+}
+
+/* Nomi */
+.titolo {
+ position: absolute;
+ top: 25mm;
+ width: 100%;
+ text-align: center;
+ font-family: 'Great Vibes', cursive;
+ font-size: 46pt;
+}
+
+/* Sottotitolo */
+.iban {
+ position: absolute;
+ top: 20mm;
+ width: 100%;
+ text-align: center;
+ font-size: 14pt;
+ font-style: italic;
+}
+
+/* Corpo centrale */
+.corpo {
+ position: absolute;
+ top: 170mm;
+ width: 100%;
+ text-align: center;
+ font-size: 14pt;
+ line-height: 1.8;
+}
+
+
+.back-button{
+  position: absolute;
+ top: 220mm;
+ width: 100%;
+ text-align: center;
+ font-size: 14pt;
+ font-style: italic;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="a4">
+
+ <div class="titolo">Manuele &amp; Tania</div>
+
+
+ <div class="corpo">
+   <div><strong> La vostra presenza sarà il dono<br>
+    più prezioso per noi </strong></div>
+
+    <div class="iban">
+      IBAN: IT 25526272300876
+    </div>
+    
+
+ </div>
+   <a href="index.html" class="back-button">Torna indietro</a>
+
+ </div>
+
+</div>
+
+</body>
+</html>
