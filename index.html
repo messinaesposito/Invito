@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+  <!-- Inserisci nel <head> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <meta charset="UTF-8">
 <title>Invito di Matrimonio</title>
 
@@ -19,8 +22,9 @@ body {
 }
 
 a {
-  color: #000000; 
+  color: #786a6a; 
     transition: 0.3s;
+    text-decoration: none;
   }
 
   .a4 {
@@ -28,10 +32,21 @@ a {
   height: 100vh;         /* occupa tutta l’altezza dello schermo */
   position: relative;
   margin: 0;
-  background: url("sfondo.png") no-repeat center center;
-  background-size: contain;
   font-family: 'Playfair Display', serif;
   color: #2b2b2b;
+}
+.canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* immagine MAI tagliata */
 }
 
 /* Nomi */
@@ -40,7 +55,7 @@ a {
   top: 15%;        /* 10% dell'altezza dell'immagine */
   width: 100%;
   text-align: center;
-  
+  color: #786a6a; 
  font-family: 'Great Vibes', cursive;
   font-size: 8vw;  /* ridimensiona in base alla larghezza dello schermo */
 }
@@ -49,9 +64,10 @@ a {
 .sottotitolo {
  position: absolute;
  top: 20%;
+ color: #786a6a; 
  width: 100%;
  text-align: center;
- font-size: 4vw;
+ font-size: 3vw;
  font-style: italic;
 }
 
@@ -62,6 +78,8 @@ a {
  width: 100%;
  text-align: center;
  font-size:  3vw;
+ color: #786a6a;
+ text-decoration: none;
  line-height: 1.8;
 }
 
@@ -109,7 +127,6 @@ a {
   width: 30%;
   height: 25%;  /* dal 20% al 50% top */
   cursor: pointer;
-  border: 1px solid red;
   /* per debugging puoi mettere border: 1px solid red; */
 }
 
@@ -117,6 +134,49 @@ a {
 .hidden-text.show {
   display: block;
 }
+
+.action-buttons {
+  position: absolute;
+  bottom: 7%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2vw;
+}
+
+.action-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background-color: transparent;
+  color: #786a6a; /* colore pastello se vuoi */
+  border-radius: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  text-decoration: none;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.action-btn:hover {
+  transform: scale(1.2);
+  color: #ffb6c1;
+  border-color: #ffb6c1;
+}
+.location {
+  display: inline-flex;   
+  justify-content: center;
+}
+.location-link i {
+  font-size: 1em;
+  opacity: 0.7;
+}
+
+.address {
+  font-size: 0.8em;
+}
+
 </style>
 
 <script>
@@ -134,7 +194,9 @@ a {
 <body>
 
 <div class="a4">
-
+  <div class="canvas">
+    <img src="sfondo.png" alt="">
+    
  <div class="titolo">Manuele &amp; Tania</div>
 
  <div class="sottotitolo">
@@ -150,7 +212,7 @@ a {
   transform: translate(-50%, -50%);
   font-size:3vw;
   text-align:center;
-  color: #000000;
+  color: #786a6a;
   font-family: 'Playfair Display', serif;
   display:none;
   z-index:10;
@@ -186,31 +248,46 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
 
  <div class="corpo" id="corpo">
    <div><strong>Sabato 10 ottobre 2026</strong></div>
-   <a href="https://www.google.it/maps/place/Basilica+of+the+Crowned+Mother+of+Good+Counsel+and+Queen+of+the+Catholic+Church/@40.8649994,14.2469316,17z/data=!3m2!4b1!5s0x133b087b1480bb21:0x202069aca76c99fb!4m6!3m5!1s0x133b087b12fa8291:0x5b8ca8d302e38fe8!8m2!3d40.8649994!4d14.2469316!16s%2Fm%2F026wfm_?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoASAFQAw%3D%3D" target="_blank">
-    Basilica dell’Incoronata Madre del Buon Consiglio
-    <div>via Capodimonte 13, Napoli</div>
-</a>
+   <div class="location">
+    <a href="https://www.google.it/maps/place/Basilica+of+the+Crowned+Mother+of+Good+Counsel+and+Queen+of+the+Catholic+Church/@40.8649994,14.2469316,17z/..." 
+       target="_blank" 
+       class="map-icon"
+       aria-label="Apri su Google Maps">
+      <i class="fa-solid fa-location-dot"></i>
+    </a>
+  
+    <div class="location-text">
+      Basilica dell’Incoronata Madre del Buon Consiglio
+      <div class="address">via Capodimonte 13, Napoli</div>
+    </div>
+  </div>
 
 
    <div style="margin-top:6mm;">
      I festeggiamenti continueranno presso
    </div>
-   <a href="https://www.google.it/maps/place/Villa+Soglia+-+Wedding+%26+Events/@40.78354,14.699382,17z/data=!3m1!4b1!4m6!3m5!1s0x133bc7ae07ddbacd:0xe0654de443bfd980!8m2!3d40.78354!4d14.699382!16s%2Fg%2F1tdqw_jh?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoASAFQAw%3D%3D
-   " target="_blank">
-   Villa Soglia
-   <div>corso Claudio 1, Castel San Giorgio, Salerno</div>
-   </a>
+   <a href="https://www.google.it/maps/place/Villa+Soglia+-+Wedding+%26+Events/@40.78354,14.699382,17z/..."
+   target="_blank"
+   class="location-link">
+  <i class="fa-solid fa-location-dot"></i>
+  <span>
+    Villa Soglia
+    <div class="address">corso Claudio 1, Castel San Giorgio, Salerno</div>
+  </span>
+</a>
 
 
-   <div class="finale">
+  </div>
+    <div class="action-buttons">
+      <a href="rsvp.html" class="action-btn"><i class="fa-solid fa-check"></i></a>
+      <a href="https://forms.gle/..." class="action-btn"><i class="fa-solid fa-pen"></i></a>
+      <a href="regalo.html" class="action-btn"><i class="fa-solid fa-gift"></i></a>
+ 
 
-    <a href="regalo.html" class="back-button"> La vostra presenza sarà il dono<br>
-      più prezioso per noi</a>
-   </div>
  </div>
 
- <div class="rsvp">R.S.V.P.</div>
-
+ <!-- Bottoni sotto il corpo del matrimonio -->
+</div>
 </div>
 
 </body>
