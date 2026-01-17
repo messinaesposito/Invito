@@ -195,21 +195,38 @@ a {
   pointer-events:auto;
 }
 
-.page{
-  position:absolute;
-  width:50%;
-  height:100%;
-  top:0;
-  background:rgba(245,240,235,0.95);
-  box-shadow:0 0 40px rgba(0,0,0,0.3);
-  transform-origin:left;
-  transition:1.4s cubic-bezier(.77,0,.18,1);
+.page {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  background: rgba(245,240,235,0.95);
+  box-shadow: 0 0 40px rgba(0,0,0,0.3);
+  transform-origin: left;
+  transition: transform 4s cubic-bezier(.77,0,.18,1); /* più lento */
+  backface-visibility: hidden; /* necessario per 3D realistico */
 }
 
-.page.right{
-  right:0;
-  transform-origin:right;
+.page.right {
+  right: 0;
+  transform-origin: right;
 }
+
+/* Bottone al centro pagina sinistra */
+.open-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-160%, -50%);
+  padding: 18px 40px;
+  border: 1px solid #786a6a;
+  color: #786a6a;
+  font-size: 22px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.75);
+  z-index: 5;
+}
+
 
 .page.left{
   left:0;
@@ -221,20 +238,6 @@ a {
 
 .book.open .right{
   transform:rotateY(120deg);
-}
-
-.open-btn{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  padding:18px 40px;
-  border:1px solid #786a6a;
-  color:#786a6a;
-  font-size:22px;
-  cursor:pointer;
-  background:rgba(255,255,255,0.75);
-  z-index:5;
 }
 
 
@@ -256,8 +259,16 @@ a {
   <div class="stage">
     <div class="book">
       <div class="page left" id="leftPage"></div>
-      <div class="page right" id="rightPage"></div>
-      <div class="open-btn" id="openBtn">Apri l'invito</div>
+      <div class="page right" id="rightPage">
+        <img id="openBtn" src="cera.png" alt="Apri l'invito" style="
+             position: absolute;
+             top: 50%;
+             left: 50%;
+             transform: translate(-155%, -50%);
+             width: 200px;  /* puoi regolare la dimensione */
+             cursor: pointer;
+             z-index: 5;">
+      </div>
     </div>
 <div class="a4">
   <div class="canvas">
@@ -361,13 +372,26 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
   </script>
 
 <script>
-  const book = document.querySelector(".book");
-  const btn = document.getElementById("openBtn");
-  
-  btn.addEventListener("click", ()=>{
-    book.classList.add("open");
-    setTimeout(()=> book.remove(), 1600);
-  });
+const book = document.querySelector(".book");
+const btn = document.getElementById("openBtn");
+const leftPage = document.querySelector(".page.left");
+const rightPage = document.querySelector(".page.right");
+
+btn.addEventListener("click", () => {
+  // apri pagina destra prima
+  rightPage.style.transform = "rotateY(120deg)";
+
+  // apri pagina sinistra dopo 0.5s
+  setTimeout(() => {
+    leftPage.style.transform = "rotateY(-120deg)";
+  }, 500);
+
+  // rimuovi libro dopo 5s (larghezza della transizione + ritardo)
+  setTimeout(() => {
+    book.remove();
+  }, 5000);
+});
+
   </script>
   
 </body>
