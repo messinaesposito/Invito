@@ -44,7 +44,7 @@ a {
 .canvas img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
 }
 
@@ -235,11 +235,11 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
       // mostra il testo temporaneo
       tempText.style.display = "block";
   
-      // dopo 4 secondi torna visibile il corpo e nasconde il testo temporaneo
+      // dopo 9 secondi torna visibile il corpo e nasconde il testo temporaneo
       setTimeout(() => {
         tempText.style.display = "none";
         corpo.style.display = "block";
-      }, 7000);
+      }, 9000);
     });
   });
   </script>
