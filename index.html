@@ -42,11 +42,10 @@ a {
 }
 
 .canvas img {
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain; /* immagine MAI tagliata */
+  object-fit: contain;
+  display: block;
 }
 
 /* Nomi */
@@ -145,8 +144,8 @@ a {
 }
 
 .action-btn {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border: 1px solid rgba(0,0,0,0.2);
   background-color: transparent;
   color: #786a6a; /* colore pastello se vuoi */
@@ -203,7 +202,6 @@ a {
    annunciano il loro matrimonio
  </div>
 
- <div class="image-wrapper">
   <!-- Scritta nascosta inizialmente -->
   <div id="temporary-text" style="
   position:absolute;
@@ -223,7 +221,7 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
 
   <!-- Area cliccabile -->
   <div id="click-area" class="click-area"></div>
-</div>
+
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const area = document.getElementById("click-area");
@@ -278,13 +276,13 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
 
 
   </div>
-    <div class="action-buttons">
+  <div class="action-buttons">
       <a href="rsvp.html" class="action-btn"><i class="fa-solid fa-check"></i></a>
       <a href="https://forms.gle/..." class="action-btn"><i class="fa-solid fa-pen"></i></a>
       <a href="regalo.html" class="action-btn"><i class="fa-solid fa-gift"></i></a>
  
 
- </div>
+  </div>
 
  <!-- Bottoni sotto il corpo del matrimonio -->
 </div>
