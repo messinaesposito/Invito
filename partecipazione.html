@@ -237,6 +237,68 @@ a {
   z-index:5;
 }
 
+/* RSVP minimale */
+.rsvp-overlay {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:90%;
+  max-width:400px;
+  color:#786a6a;
+  text-align:center;
+  z-index:20;
+}
+
+.rsvp-step1 input {
+  width:100%;
+  border:none;
+  border-bottom:1px solid #786a6a;
+  background:transparent;
+  padding:8px 0;
+  font-size:1em;
+  margin-bottom:20px;
+  color:#786a6a;
+}
+
+.rsvp-step1 button {
+  padding:10px 25px;
+  margin:0 10px;
+  border:1px solid #786a6a;
+  background:transparent;
+  color:#786a6a;
+  cursor:pointer;
+  opacity:0.5;
+}
+
+.rsvp-step1 button.enabled { opacity:1; }
+
+.rsvp-step2 {
+  display:none;
+  text-align:left;
+  margin-top:20px;
+}
+
+.rsvp-step2 input,
+.rsvp-step2 select,
+.rsvp-step2 textarea {
+  width:100%;
+  margin:5px 0;
+  padding:6px 0;
+  border:none;
+  border-bottom:1px solid #786a6a;
+  background:transparent;
+  color:#786a6a;
+}
+
+.rsvp-step2 button {
+  margin-top:10px;
+  padding:10px 25px;
+  border:1px solid #786a6a;
+  background:transparent;
+  color:#786a6a;
+  cursor:pointer;
+}
 
 </style>
 
@@ -253,12 +315,7 @@ a {
 </head>
 
 <body>
-  <div class="stage">
-    <div class="book">
-      <div class="page left" id="leftPage"></div>
-      <div class="page right" id="rightPage"></div>
-      <div class="open-btn" id="openBtn">Apri l'invito</div>
-    </div>
+
 <div class="a4">
   <div class="canvas">
     <img src="sfondo.png" alt="">
@@ -290,48 +347,43 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
   <div id="click-area" class="click-area"></div>
 
  <div class="corpo" id="corpo">
-  <div><b>Sabato 10 ottobre 2026</b></div>
+  <div class="rsvp-overlay">
+    <div class="rsvp-step1">
+      <input type="text" id="rsvpName" placeholder="Inserisci Nome e Cognome" oninput="checkName()">
+      <div>
+        <label>Parteciperai?</label>
+        <button id="yesBtn" onclick="showStep2(true)">Sì</button>
+        <button id="noBtn" onclick="sendNo()">No</button>
+      </div>
+    </div>
 
-  <a href="https://www.google.it/maps/place/Basilica+of+the+Crowned+Mother+of+Good+Counsel+and+Queen+of+the+Catholic+Church/@40.8649994,14.2469316,17z/data=!3m2!4b1!5s0x133b087b1480bb21:0x202069aca76c99fb!4m6!3m5!1s0x133b087b12fa8291:0x5b8ca8d302e38fe8!8m2!3d40.8649994!4d14.2469316!16s%2Fm%2F026wfm_"
-  target="_blank"
-  class="location-link">
+    <div class="rsvp-step2" id="step2">
+      <label>Partecipi da solo o in compagnia?</label>
+      <select id="compagnia" onchange="toggleExtra()">
+        <option value="solo">Solo/a</option>
+        <option value="compagnia">In compagnia</option>
+      </select>
 
-  <i class="fa-solid fa-location-dot"></i>
+      <div id="extraFields" style="display:none;">
+        <input type="number" id="adulti" placeholder="Numero adulti aggiuntivi" min="0">
+        <input type="number" id="bambini03" placeholder="Bambini 0-3 anni" min="0">
+        <input type="number" id="bambini3plus" placeholder="Bambini 3+ anni" min="0">
+        <textarea id="nomiExtra" placeholder="Nomi partecipanti aggiuntivi"></textarea>
+      </div>
 
-  <span class="location-text">
-    Basilica dell’Incoronata Madre del Buon Consiglio
-    <div class="address">via Capodimonte 13, Napoli</div>
-  </span>
+      <button onclick="sendYes()">Invia</button>
+    </div>
+  </div>
+  
 
-</a>
-
-
-
-   <div style="margin-top:6mm;">
-     I festeggiamenti continueranno presso
-   </div>
-   <a href="https://www.google.it/maps/place/Villa+Soglia+-+Wedding+%26+Events/@40.78354,14.699382,17z/data=!3m1!4b1!4m6!3m5!1s0x133bc7ae07ddbacd:0xe0654de443bfd980!8m2!3d40.78354!4d14.699382!16s%2Fg%2F1tdqw_jh"
-   target="_blank"
-   class="location-link">
-  <i class="fa-solid fa-location-dot"></i>
-  <span>
-    Villa Soglia
-    <div class="address">corso Claudio 1, Castel San Giorgio, Salerno</div>
-  </span>
-</a>
 
   </div>
 
   <div class="action-buttons">
-    <a href="partecipazione.html" class="action-btn"><i class="fa-solid fa-check"></i></a>
-    <a href="https://forms.gle/o3xgW6BfQE7T1m6g8" class="action-btn"><i class="fa-solid fa-pen"></i></a>
-    <a href="regalo.html" class="action-btn"><i class="fa-solid fa-gift"></i></a>
-  
-  
+     <a href="home.html" class="action-btn"><i class="fa-solid fa-house"></i></a>
   </div>
 
  <!-- Bottoni sotto il corpo del matrimonio -->
-</div>
 </div>
 </div>
 
@@ -369,6 +421,63 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
     setTimeout(()=> book.remove(), 1600);
   });
   </script>
+
+<script>
+  function checkName(){
+    const name = document.getElementById("rsvpName").value.trim();
+    const yes = document.getElementById("yesBtn");
+    const no = document.getElementById("noBtn");
+    if(name.length>0){
+      yes.classList.add("enabled");
+      no.classList.add("enabled");
+    } else {
+      yes.classList.remove("enabled");
+      no.classList.remove("enabled");
+    }
+  }
+  
+  function showStep2(isYes){
+    const name = document.getElementById("rsvpName").value.trim();
+    if(!name){ alert("Inserisci Nome e Cognome"); return; }
+    if(isYes){
+      document.getElementById("step2").style.display="block";
+    } else {
+      sendNo();
+    }
+    document.querySelector(".rsvp-step1").style.display="none";
+  }
+  
+  function toggleExtra(){
+    const val = document.getElementById("compagnia").value;
+    document.getElementById("extraFields").style.display = (val==="compagnia") ? "block":"none";
+  }
+  
+  function sendNo(){
+    const name = document.getElementById("rsvpName").value.trim();
+    if(!name){ alert("Inserisci Nome e Cognome"); return; }
+    const msg = `Ciao! Sono ${name} e purtroppo non potrò partecipare al matrimonio 💌`;
+    window.open("https://wa.me/393892043551?text="+encodeURIComponent(msg), "_blank");
+  }
+  
+  function sendYes(){
+    const name = document.getElementById("rsvpName").value.trim();
+    const adulti = document.getElementById("adulti").value || 0;
+    const b03 = document.getElementById("bambini03").value || 0;
+    const b3plus = document.getElementById("bambini3plus").value || 0;
+    const nomi = document.getElementById("nomiExtra").value;
+  
+    const msg = `Conferma partecipazione matrimonio 💍
+  Nome: ${name}
+  Adulti extra: ${adulti}
+  Bambini 0-3 anni: ${b03}
+  Bambini 3+ anni: ${b3plus}
+  Nomi accompagnatori:
+  ${nomi}`;
+  
+    window.open("https://wa.me/393892043551?text="+encodeURIComponent(msg), "_blank");
+  }
+  </script>
+  
   
 </body>
 </html>
