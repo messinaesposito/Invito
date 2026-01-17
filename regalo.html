@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+  <!-- Inserisci nel <head> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <meta charset="UTF-8">
 <title>Invito di Matrimonio</title>
 
@@ -19,7 +22,7 @@ body {
 }
 
 a {
-  color: #000000; 
+  color: #786a6a; 
     transition: 0.3s;
     text-decoration: none;
   }
@@ -29,10 +32,24 @@ a {
   height: 100vh;         /* occupa tutta l’altezza dello schermo */
   position: relative;
   margin: 0;
-  background: url("sfondo.png") no-repeat center center;
-  background-size: contain;
   font-family: 'Playfair Display', serif;
   color: #2b2b2b;
+}
+.canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
 }
 
 /* Nomi */
@@ -41,7 +58,7 @@ a {
   top: 15%;        /* 10% dell'altezza dell'immagine */
   width: 100%;
   text-align: center;
-  
+  color: #786a6a; 
  font-family: 'Great Vibes', cursive;
   font-size: 8vw;  /* ridimensiona in base alla larghezza dello schermo */
 }
@@ -50,19 +67,21 @@ a {
 .sottotitolo {
  position: absolute;
  top: 20%;
+ color: #786a6a; 
  width: 100%;
  text-align: center;
- font-size: 4vw;
+ font-size: 3vw;
  font-style: italic;
 }
 
 /* Corpo centrale */
 .corpo {
  position: absolute;
- top: 55%;
+ top: 70%;
  width: 100%;
  text-align: center;
  font-size:  3vw;
+ color: #786a6a;
  text-decoration: none;
  line-height: 1.8;
 }
@@ -118,6 +137,213 @@ a {
 .hidden-text.show {
   display: block;
 }
+
+.action-buttons {
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2vw; 
+}
+
+.action-btn {
+  width: 70px;
+  height: 70px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background-color: transparent;
+  color: #786a6a; /* colore pastello se vuoi */
+  border-radius: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  text-decoration: none;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.action-btn:hover {
+  transform: scale(1.2);
+  color: #ffb6c1;
+  border-color: #ffb6c1;
+}
+.location {
+  display: inline-flex;   
+  justify-content: center;
+}
+.location-link i {
+  font-size: 1em;
+  opacity: 0.7;
+}
+
+.address {
+  font-size: 0.8em;
+}
+
+.stage{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+}
+
+.book{
+  position:absolute;
+  inset:0;
+  perspective:2000px;
+  z-index:10;
+  pointer-events:auto;
+}
+
+.page{
+  position:absolute;
+  width:50%;
+  height:100%;
+  top:0;
+  background:rgba(245,240,235,0.95);
+  box-shadow:0 0 40px rgba(0,0,0,0.3);
+  transform-origin:left;
+  transition:1.4s cubic-bezier(.77,0,.18,1);
+}
+
+.page.right{
+  right:0;
+  transform-origin:right;
+}
+
+.page.left{
+  left:0;
+}
+
+.book.open .left{
+  transform:rotateY(-120deg);
+}
+
+.book.open .right{
+  transform:rotateY(120deg);
+}
+
+.open-btn{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  padding:18px 40px;
+  border:1px solid #786a6a;
+  color:#786a6a;
+  font-size:22px;
+  cursor:pointer;
+  background:rgba(255,255,255,0.75);
+  z-index:5;
+}
+
+/* RSVP minimale */
+.rsvp-overlay {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:90%;
+  max-width:400px;
+  color:#786a6a;
+  text-align:center;
+  z-index:20;
+}
+
+.rsvp-step1 div {
+  display: flex;
+  align-items: center;    /* centra verticalmente label e bottoni tra loro */
+  justify-content: center; /* centra orizzontalmente tutto il blocco nella pagina */
+  gap: 10px;               /* spazio tra label e bottoni */
+  margin-top: 20px;        /* opzionale: distanza dal bordo superiore */
+}
+
+.rsvp-step1 input {
+  width:100%;
+  border:none;
+  border-bottom:1px solid #786a6a;
+  background:transparent;
+  padding:8px 0;
+  font-size:1em;
+  margin-bottom:20px;
+  color:#786a6a;
+}
+
+.rsvp-step1 button {
+  padding:10px 25px;
+  margin:0 10px;
+  border:1px solid #786a6a;
+  background:transparent;
+  color:#786a6a;
+  cursor:pointer;
+}
+
+.rsvp-step1 button.enabled { opacity:1; }
+
+.rsvp-step2 {
+  display:none;
+  text-align:left;
+  margin-top:20px;
+}
+
+.rsvp-step2 input,
+.rsvp-step2 select,
+.rsvp-step2 textarea {
+  width:100%;
+  margin:5px 0;
+  padding:6px 0;
+  border:none;
+  border-bottom:1px solid #786a6a;
+  background:transparent;
+  color:#786a6a;
+}
+
+.rsvp-step2 button {
+  margin-top:10px;
+  padding:10px 25px;
+  border:1px solid #786a6a;
+  background:transparent;
+  color:#786a6a;
+  cursor:pointer;
+}
+
+.partecipante {
+  display: flex;
+  align-items: center;
+  gap: 10px;               /* spazio tra elementi */
+  border: 1px solid #ccc;  /* unico bordo attorno al blocco */
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.partecipante button {
+  background-color: transparent; /* niente colore di sfondo */
+  color: #333;                   /* testo discreto */
+  border: 1px solid #ccc;        /* bordo leggero per farlo sembrare un bottone */
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.partecipante button:hover {
+  background-color: #f0f0f0;     /* leggero effetto hover */
+}
+
+.partecipante button.remove-btn {
+  background-color: transparent;  /* nessuno sfondo */
+  border: none;                   /* niente bordo */
+  color: #555;                    /* grigio scuro */
+  font-size: 1.2em;               /* dimensione visibile ma discreta */
+  cursor: pointer;
+  padding: 0 6px;
+  line-height: 1;
+}
+
+.partecipante button.remove-btn:hover {
+  color: #000;                    /* diventa più scura al passaggio del mouse */
+}
+
 </style>
 
 <script>
@@ -135,14 +361,15 @@ a {
 <body>
 
 <div class="a4">
-
+  <div class="canvas">
+    <img src="sfondo.png" alt="">
+    
  <div class="titolo">Manuele &amp; Tania</div>
 
  <div class="sottotitolo">
    annunciano il loro matrimonio
  </div>
 
- <div class="image-wrapper">
   <!-- Scritta nascosta inizialmente -->
   <div id="temporary-text" style="
   position:absolute;
@@ -151,7 +378,7 @@ a {
   transform: translate(-50%, -50%);
   font-size:3vw;
   text-align:center;
-  color: #000000;
+  color: #786a6a;
   font-family: 'Playfair Display', serif;
   display:none;
   z-index:10;
@@ -162,7 +389,45 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
 
   <!-- Area cliccabile -->
   <div id="click-area" class="click-area"></div>
+
+ <div class="corpo" id="corpo">
+  <div class="rsvp-overlay">
+    <div class="rsvp-step1">
+      
+        <label>La vostra presenza saraà il dono più prezionso per noi</label>
+        <div class="iban-container" style="margin-top:15px; text-align:center; display:block; width:100%;">
+          <input type="text" id="ibanField" value="IT00X0000000000000000000000" readonly 
+                 style="width:100%; padding:5px; text-align:center; display:block; margin:0 auto 8px auto;">
+          <button type="button" onclick="copyIBAN()" style="padding:5px 15px;">Copia IBAN</button>
+        </div>
+    </div>
+
+  </div>
+  
+
+
+  </div>
+
+  <div class="action-buttons">
+     <a href="home.html" class="action-btn"><i class="fa-solid fa-house"></i></a>
+  </div>
+
+ <!-- Bottoni sotto il corpo del matrimonio -->
 </div>
+</div>
+
+<script>
+  document.addEventListener("contextmenu", e => e.preventDefault());
+  
+  function copyIBAN() {
+  const iban = document.getElementById("ibanField");
+  iban.select();
+  iban.setSelectionRange(0, 99999); // per dispositivi mobili
+  navigator.clipboard.writeText(iban.value)
+    .then(() => alert("IBAN copiato negli appunti!"))
+    .catch(() => alert("Impossibile copiare l'IBAN."));
+}
+  </script>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const area = document.getElementById("click-area");
@@ -176,30 +441,25 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
       // mostra il testo temporaneo
       tempText.style.display = "block";
   
-      // dopo 4 secondi torna visibile il corpo e nasconde il testo temporaneo
+      // dopo 9 secondi torna visibile il corpo e nasconde il testo temporaneo
       setTimeout(() => {
         tempText.style.display = "none";
         corpo.style.display = "block";
-      }, 5000);
+      }, 9000);
     });
   });
   </script>
 
- <div class="corpo" id="corpo">
-    <div>La vostra presenza sarà il dono<br>
-      più prezioso per noi</div>
-    <div>IBAN :</div>
- 
-
-
-    <a href="home.html" class="back-button"> indietro</a>
-
- </div>
+<script>
+  const book = document.querySelector(".book");
+  const btn = document.getElementById("openBtn");
   
- </div>
-
-
-</div>
-
+  btn.addEventListener("click", ()=>{
+    book.classList.add("open");
+    setTimeout(()=> book.remove(), 1600);
+  });
+  </script>
+  
+  
 </body>
 </html>

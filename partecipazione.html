@@ -140,7 +140,7 @@ a {
 
 .action-buttons {
   position: absolute;
-  bottom: 17%;
+  bottom: 10%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -148,8 +148,8 @@ a {
 }
 
 .action-btn {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   border: 1px solid rgba(0,0,0,0.2);
   background-color: transparent;
   color: #786a6a; /* colore pastello se vuoi */
@@ -250,6 +250,14 @@ a {
   z-index:20;
 }
 
+.rsvp-step1 div {
+  display: flex;
+  align-items: center;    /* centra verticalmente label e bottoni tra loro */
+  justify-content: center; /* centra orizzontalmente tutto il blocco nella pagina */
+  gap: 10px;               /* spazio tra label e bottoni */
+  margin-top: 20px;        /* opzionale: distanza dal bordo superiore */
+}
+
 .rsvp-step1 input {
   width:100%;
   border:none;
@@ -268,7 +276,6 @@ a {
   background:transparent;
   color:#786a6a;
   cursor:pointer;
-  opacity:0.5;
 }
 
 .rsvp-step1 button.enabled { opacity:1; }
@@ -298,6 +305,43 @@ a {
   background:transparent;
   color:#786a6a;
   cursor:pointer;
+}
+
+.partecipante {
+  display: flex;
+  align-items: center;
+  gap: 10px;               /* spazio tra elementi */
+  border: 1px solid #ccc;  /* unico bordo attorno al blocco */
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.partecipante button {
+  background-color: transparent; /* niente colore di sfondo */
+  color: #333;                   /* testo discreto */
+  border: 1px solid #ccc;        /* bordo leggero per farlo sembrare un bottone */
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.partecipante button:hover {
+  background-color: #f0f0f0;     /* leggero effetto hover */
+}
+
+.partecipante button.remove-btn {
+  background-color: transparent;  /* nessuno sfondo */
+  border: none;                   /* niente bordo */
+  color: #555;                    /* grigio scuro */
+  font-size: 1.2em;               /* dimensione visibile ma discreta */
+  cursor: pointer;
+  padding: 0 6px;
+  line-height: 1;
+}
+
+.partecipante button.remove-btn:hover {
+  color: #000;                    /* diventa più scura al passaggio del mouse */
 }
 
 </style>
@@ -449,27 +493,24 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
     const val = document.getElementById("compagnia").value;
     document.getElementById("extraFields").style.display = (val==="compagnia") ? "block":"none";
   }
-  
   function addPartecipante(){
-    const container = document.getElementById("partecipantiContainer");
-  
-    const div = document.createElement("div");
-    div.classList.add("partecipante");
-    div.style.marginBottom="8px";
-  
-    div.innerHTML = `
-      <input type="text" placeholder="Nome partecipante">
-      <select>
-        <option value="adulto">Adulto</option>
-        <option value="bimbo03">Bambino 0-3</option>
-        <option value="bimbo3plus">Bambino 3+</option>
-      </select>
-      <button type="button" onclick="this.parentElement.remove()">❌</button>
-    `;
-  
-    container.appendChild(div);
-  }
-  
+  const container = document.getElementById("partecipantiContainer");
+
+  const div = document.createElement("div");
+  div.classList.add("partecipante");
+
+  div.innerHTML = `
+  <input type="text" placeholder="Nome partecipante">
+  <select>
+    <option value="adulto">Adulto</option>
+    <option value="bimbo03">Bambino 0-3</option>
+    <option value="bimbo3plus">Bambino 3+</option>
+  </select>
+  <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+`;
+
+  container.appendChild(div);
+}
   function sendNo(){
     const name = document.getElementById("rsvpName").value.trim();
     if(!name){ alert("Inserisci Nome e Cognome"); return; }
