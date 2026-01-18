@@ -138,35 +138,46 @@ a {
   display: block;
 }
 
+/* contenitore fogli (pannello) */
 .action-buttons {
-  position: absolute;
-  bottom: 10%;
-  width: 100%;
+  position: fixed;
+
+  top: 60%;       /* distanza dall’alto */
+  right: 0px;      /* bordo destro */
   display: flex;
-  justify-content: center;
-  gap: 2vw; 
+  flex-direction: column;
+  margin: 0;
+  overflow: visible;
 }
 
+/* foglio generico */
 .action-btn {
-  width: 70px;
-  height: 70px;
-  border: 1px solid rgba(0,0,0,0.2);
-  background-color: transparent;
-  color: #786a6a; /* colore pastello se vuoi */
-  border-radius: 10%;
+  width: 100px;
+  height: 250px;
+  background: url('fogliotagliato.png') no-repeat center top;
+  background-size: cover;   /* adatta l'immagine al contenitore */
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.5em;
-  text-decoration: none;
-  transition: transform 0.2s, color 0.2s;
+  justify-content: flex-start; /* orizzontale verso sinistra */
+  align-items: flex-start;     /* verticale verso l’alto */
+  padding: 10px;    
+  padding-top: 20px;               /* spazio interno su tutti i lati */
+  font-size: 1.6em;
+  cursor: pointer;
+  position: relative;
+  margin-top: -200px;          /* sovrapposizione verticale */
+  margin-right: -50px; 
+  border-radius: 6px;
+  filter: drop-shadow(5px 5px 8px rgba(0,0,0,0.4)); /* segue contorno trasparente */
+
+  transition: transform 0.2s;
 }
 
-.action-btn:hover {
-  transform: scale(1.2);
-  color: #ffb6c1;
-  border-color: #ffb6c1;
-}
+/* rotazioni leggermente diverse per ogni foglio */
+.action-btn:nth-child(1) { transform: rotate(-2deg); z-index: 100; }
+.action-btn:nth-child(2) { transform: rotate(1.5deg); z-index: 101; }
+.action-btn:nth-child(3) { transform: rotate(-1deg); z-index: 102; }
+
+
 .location {
   display: inline-flex;   
   justify-content: center;
@@ -240,8 +251,87 @@ a {
   transform:rotateY(120deg);
 }
 
+#partecipazionePanel {
+  position: fixed;
+  top:50%;
+  right:0;
+  width: 80%;       /* larghezza del pannello */
+  max-width: 500px;
+  height: 40%;
+  background: url('fogliotagliato.png') no-repeat center top;
+  background-size: cover;
+  
+  filter: drop-shadow(5px 5px 8px rgba(0,0,0,0.4)); /* segue contorno trasparente */
+  transform: translate(100%, -50%); /* fuori schermo a destra e centrato verticalmente */
+ 
+  transition: transform 0.6s ease;
+  z-index: 200;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* quando deve apparire */
+#partecipazionePanel.show {
+  transform: translate(-40%, -60%); /* entra al centro della pagina */
+}
+
+/* Bottone chiudi */
+#closePartecipazione {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  font-size: 2em;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #786a6a;
+}
+#partecipazionePanel iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+#regaloPanel {
+  position: fixed;
+  top:50%;
+  left:50%;
+  width: 80%;
+  max-width: 500px;
+  height: 50%;
+  background: url('fogliotagliato.png') no-repeat center top;
+  background-size: cover;
+  transform: translate(100%, -50%); /* fuori schermo a destra */
+  transition: transform 0.6s ease;
+  z-index: 200;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+#regaloPanel.show {
+  transform: translate(-50%, -50%); /* entra al centro */
+}
+
+#regaloPanel iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+#closeRegalo {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  font-size: 2em;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #786a6a;
+}
 
 </style>
+
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
@@ -334,12 +424,21 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
   </div>
 
   <div class="action-buttons">
-    <a href="partecipazione.html" class="action-btn"><i class="fa-solid fa-check"></i></a>
-    <a href="https://forms.gle/o3xgW6BfQE7T1m6g8" class="action-btn"><i class="fa-solid fa-pen"></i></a>
-    <a href="regalo.html" class="action-btn"><i class="fa-solid fa-gift"></i></a>
-  
-  
+    <a href="partecipazione.html" class="action-btn" style="--i:0;"><i class="fa-solid fa-check"></i></a>
+    <a href="https://forms.gle/o3xgW6BfQE7T1m6g8" class="action-btn" style="--i:1;"><i class="fa-solid fa-pen"></i></a>
+    <a href="regalo.html" class="action-btn" style="--i:2;"><i class="fa-solid fa-gift"></i></a>
   </div>
+
+    <!-- Pannello partecipazione (inizialmente nascosto) -->
+<div id="partecipazionePanel">
+  <iframe src="partecipazione.html"></iframe>
+  <button id="closePartecipazione">&times;</button>
+</div>
+
+<div id="regaloPanel">
+  <iframe src="regalo.html"></iframe>
+  <button id="closeRegalo">&times;</button>
+</div>
 
  <!-- Bottoni sotto il corpo del matrimonio -->
 </div>
@@ -393,6 +492,54 @@ btn.addEventListener("click", () => {
 });
 
   </script>
+    <script>
+      // il pannello Partecipazione
+  document.getElementById("openPartecipazione").addEventListener("click", () => {
+    document.getElementById("partecipazionePanel").classList.add("show");
+  });
   
+  // Chiudi il pannello
+  document.getElementById("closePartecipazione").addEventListener("click", () => {
+    document.getElementById("partecipazionePanel").classList.remove("show");
+  });
+  
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const partecipazionePanel = document.getElementById("partecipazionePanel");
+        const actionBtn = document.querySelector(".action-btn[href='partecipazione.html']");
+        const closeBtn = document.getElementById("closePartecipazione");
+      
+        // Apri pannello con transizione
+        actionBtn.addEventListener("click", function(e){
+          e.preventDefault();  // impedisce il redirect
+          partecipazionePanel.classList.add("show");
+        });
+      
+        // Chiudi pannello
+        closeBtn.addEventListener("click", function(){
+          partecipazionePanel.classList.remove("show");
+        });
+      });
+      </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const regaloPanel = document.getElementById("regaloPanel");
+    const actionBtnRegalo = document.querySelector(".action-btn[href='regalo.html']");
+    const closeBtnRegalo = document.getElementById("closeRegalo");
+  
+    // Apri pannello regalo
+    actionBtnRegalo.addEventListener("click", function(e){
+      e.preventDefault();
+      regaloPanel.classList.add("show");
+    });
+  
+    // Chiudi pannello
+    closeBtnRegalo.addEventListener("click", function(){
+      regaloPanel.classList.remove("show");
+    });
+  });
+  </script>
 </body>
 </html>

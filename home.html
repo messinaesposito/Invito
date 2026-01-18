@@ -237,6 +237,56 @@ a {
   z-index:5;
 }
 
+.hint-circle{
+  position:absolute;
+  border:3px solid rgba(120,106,106,0.8);
+  border-radius:50%;
+  animation:pulse 2s ease-out forwards;
+  pointer-events:none;
+  z-index:50;
+}
+
+@keyframes pulse{
+  0%{transform:scale(0.3); opacity:0;}
+  30%{transform:scale(1); opacity:1;}
+  100%{transform:scale(1.4); opacity:0;}
+}
+
+#partecipazionePanel {
+  position: fixed;
+  top: 0;
+  right: -100vw;       /* fuori dallo schermo a destra */
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  z-index: 200;
+  box-shadow: -6px 0 30px rgba(0,0,0,0.3);
+  transition: right 0.6s ease-in-out;
+  overflow: auto;
+}
+
+#partecipazionePanel.show {
+  right: 0;           /* entra da destra */
+}
+
+#partecipazionePanel iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+#closePartecipazione {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 10px 15px;
+  font-size: 24px;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid #786a6a;
+  cursor: pointer;
+  z-index: 210;
+}
+
 
 </style>
 
@@ -296,11 +346,7 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
     Basilica dell’Incoronata Madre del Buon Consiglio
     <div class="address">via Capodimonte 13, Napoli</div>
   </span>
-
-</a>
-
-
-
+  </a>
    <div style="margin-top:6mm;">
      I festeggiamenti continueranno presso
    </div>
@@ -312,17 +358,20 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
     Villa Soglia
     <div class="address">corso Claudio 1, Castel San Giorgio, Salerno</div>
   </span>
-</a>
-
+  </a>
   </div>
 
   <div class="action-buttons">
     <a href="partecipazione.html" class="action-btn"><i class="fa-solid fa-check"></i></a>
     <a href="https://forms.gle/o3xgW6BfQE7T1m6g8" class="action-btn"><i class="fa-solid fa-pen"></i></a>
     <a href="regalo.html" class="action-btn"><i class="fa-solid fa-gift"></i></a>
-  
-  
   </div>
+
+  <!-- Pannello partecipazione (inizialmente nascosto) -->
+<div id="partecipazionePanel">
+  <iframe src="partecipazione.html"></iframe>
+  <button id="closePartecipazione">&times;</button>
+</div>
 
  <!-- Bottoni sotto il corpo del matrimonio -->
 </div>
@@ -362,6 +411,42 @@ Non potevamo immaginare il nostro giorno speciale senza condividere la gioia con
     setTimeout(()=> book.remove(), 1600);
   });
   </script>
+
+<script>
+  const clickableAreas = [
+    document.getElementById("click-area"),
+    ...document.querySelectorAll(".location-link"),
+    ...document.querySelectorAll(".action-btn")
+  ];
   
+  document.addEventListener("click", e => {
+    // se clicca su un'area cliccabile, non mostrare i cerchi
+    if(e.target.closest("#click-area, .action-btn, .location-link, #openBtn")) return;
+  
+    clickableAreas.forEach(el => {
+      const r = el.getBoundingClientRect();
+      const circle = document.createElement("div");
+      circle.className = "hint-circle";
+      circle.style.width = "30px";
+      circle.style.height = "30px";
+      circle.style.left = (r.left + r.width/2 - 18) + "px";
+      circle.style.top  = (r.top  + r.height/2 - 18) + "px";
+      document.body.appendChild(circle);
+      setTimeout(()=>circle.remove(),2000);
+    });
+  });
+  </script>
+  <script>
+    // il pannello Partecipazione
+document.getElementById("openPartecipazione").addEventListener("click", () => {
+  document.getElementById("partecipazionePanel").classList.add("show");
+});
+
+// Chiudi il pannello
+document.getElementById("closePartecipazione").addEventListener("click", () => {
+  document.getElementById("partecipazionePanel").classList.remove("show");
+});
+
+  </script>
 </body>
 </html>
